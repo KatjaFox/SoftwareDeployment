@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Password1234 
+      MYSQL_DATABASE: dbtest 
+      MYSQL_USER: root 
+      MYSQL_PASSWORD: Password1234 
+      MYSQL_ROOT_HOST: "172.22.0.3"
+
+  wordpress:
+    depends_on:
+     - db
+    image: wordpress:latest 
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: Password1234
+      WORDPRESS_DB_NAME: dbtest
+    ports:
+      - "1234:80"
+    restart: unless-stopped
